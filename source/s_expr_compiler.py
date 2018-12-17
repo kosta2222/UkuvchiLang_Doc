@@ -103,9 +103,13 @@ import re
 isa = isinstance
 Symbol = str
 def load_file(fName):
+    """
+    """ 
     fContent=open(fName).read()
     return fContent
 def op_prior(str_char_op):
+    """
+    """
     if str_char_op=="^":
         return 6
     elif str_char_op=="*":
@@ -119,6 +123,8 @@ def op_prior(str_char_op):
     elif str_char_op=="-":
         return 2 
 def isOp(c):
+    """
+    """ 
     if c=="-" or c=="+" or c=="*" or c=="/" or c=="%"or c=="^" :return True
     return False
 def opn(str_code): 
@@ -162,7 +168,9 @@ class LispMach:
  """
  Компилятор
  """
- def __init__(self):   
+ def __init__(self):
+  """
+  """   
   self.pole_dictKstrYintK_funcTable={}
   self.pole_vectorKintK_b_c=[]
   self.pole_int_startIp=0
@@ -173,30 +181,32 @@ class LispMach:
      """
      self.pole_vectorKintK_b_c.append(int_command)
  def method_recurs_evalPerList_LrV(self,vectorKintOrStrK):
+    """
+    рекурсивный разбор s-выражения vectorKintOrStrK -список с числами и строками 
+    как именами того какой байт-код генерировать
+    смотря на аргумент self.method_genB_C_IrV можно понять синтаксис языка 
+    """
     #print(vectorKintOrStrK)
-    if isa(vectorKintOrStrK, Symbol) : 
-        return vectorKintOrStrK
-    elif not isa(vectorKintOrStrK, list):
+    
+    if not isa(vectorKintOrStrK, list):
         self.method_genB_C_IrV(ICONST)
         self.method_genB_C_IrV(vectorKintOrStrK)
         return vectorKintOrStrK 
-    elif vectorKintOrStrK[0] == '//':
+    elif vectorKintOrStrK[0] == '//':#комментарии
         pass
-    elif vectorKintOrStrK[0] == 'set!':           # (set! var exp)
+    elif vectorKintOrStrK[0] == 'set!':  #переменная         
         (_, var, exp) = vectorKintOrStrK
         self.method_recurs_evalPerList_LrV(exp)
         self.method_genB_C_IrV(STORE)
         int_ordLocToStore=ord(var)-ord("a")
         self.method_genB_C_IrV(int_ordLocToStore)
-    elif vectorKintOrStrK[0] == 'setResult!':           # (set! var exp)
+    elif vectorKintOrStrK[0] == 'setResult!': #значение от функции          
         (_, var) = vectorKintOrStrK
         self.method_genB_C_IrV(STORE_RESULT)
         int_ordLocToStoreRegistr=ord(var)-ord("a")
-        self.method_genB_C_IrV(int_ordLocToStoreRegistr)        
-    elif vectorKintOrStrK[0] == 'define':         # (define var exp)
-        (_, var, exp) = vectorKintOrStrK
-        env[var] = method_recurs_evalPerList_LrV(exp)         
-    elif vectorKintOrStrK[0] == 'defun':         # (lambda (var*) exp)
+        self.method_genB_C_IrV(int_ordLocToStoreRegistr)                
+    elif vectorKintOrStrK[0] == 'defun':   #определить функцию-заносим в карту имя функции и ее позицию в байт коде
+                                           #запоминаем индекс байт-кода функции main      
         (_,str_nameFunc, list_arg,list_expr) = vectorKintOrStrK
         if str_nameFunc=='main':
             self.pole_int_startIp=len(self.pole_vectorKintK_b_c)
@@ -206,20 +216,14 @@ class LispMach:
         self.method_recurs_evalPerList_LrV(list_expr)
         
            
-    elif vectorKintOrStrK[0] == '$':          # (begin exp*)
+    elif vectorKintOrStrK[0] == '$': #выполняем s-выражений слева направо       
         for exp in vectorKintOrStrK[1:]:
             val = self.method_recurs_evalPerList_LrV(exp)
         return val
-    elif vectorKintOrStrK[0]=='return':
-        self.method_genB_C_IrV(RET)
+    elif vectorKintOrStrK[0]=='return': #выход из функции
+        self.method_genB_C_IrV(RET)       
         
-    #elif vectorKintOrStrK[0]=='setZnach!':
-    #    pass
-    #    (_,bukva)=vectorKintOrStrK
-    #    self.method_genB_C_IrV(STORE_RET_REGISTR)
-    #    self.method_genB_C_IrV(ord(bukva)-ord("a"))
-        
-    elif vectorKintOrStrK[0] == 'arif':
+    elif vectorKintOrStrK[0] == 'arif': #выполняем арифметическое выражение
         listKintOrStr_resOpnZapis=opn(vectorKintOrStrK[1:])
         for i in listKintOrStr_resOpnZapis:
             if isOp(i):
@@ -243,14 +247,13 @@ class LispMach:
                     self.method_genB_C_IrV(LOAD_RESULT)
             elif isa(i,float):
                 self.method_genB_C_IrV(ICONST)
-                #self.method_genB_C_IrV(i)
                 for i1 in floatToBytes_SfloatRbytes(i):
                     self.method_genB_C_IrV(i1)
-    elif vectorKintOrStrK[0] == 'print':
+    elif vectorKintOrStrK[0] == 'print': #печатаем локальную переменную
         for str_temp_BukvaKakChislo in vectorKintOrStrK[1:]:  
           self.method_genB_C_IrV(PRINT)
           self.method_genB_C_IrV(ord(str_temp_BukvaKakChislo)-ord('a'))
-    elif vectorKintOrStrK[0] == 'call':
+    elif vectorKintOrStrK[0] == 'call': #вызываем функцию
         (_,str_nameFunctionToCallFromMainFunction,list_args)=vectorKintOrStrK
         int_nameFunctionToCallFromMainFunction=self.pole_dictKstrYintK_funcTable[str_nameFunctionToCallFromMainFunction]
         print(int_nameFunctionToCallFromMainFunction)
@@ -258,17 +261,17 @@ class LispMach:
         self.method_genB_C_IrV(CALL)
         self.method_genB_C_IrV(int_nameFunctionToCallFromMainFunction)
         self.method_genB_C_IrV(self.pole_int_nargs)
-    elif vectorKintOrStrK[0]=='<':
+    elif vectorKintOrStrK[0]=='<': #сравнение на меньше
         (_,list_arif1,list_arif2)=vectorKintOrStrK
         self.method_recurs_evalPerList_LrV(list_arif1)
         self.method_recurs_evalPerList_LrV(list_arif2)
         self.method_genB_C_IrV(ILT)
-    elif vectorKintOrStrK[0]=='=':
+    elif vectorKintOrStrK[0]=='=':#сравнение на равенство
         (_,list_arif1,list_arif2)=vectorKintOrStrK
         self.method_recurs_evalPerList_LrV(list_arif1)
         self.method_recurs_evalPerList_LrV(list_arif2)
         self.method_genB_C_IrV(IEQ)        
-    elif vectorKintOrStrK[0]=='if':
+    elif vectorKintOrStrK[0]=='if':#if
         (_,list_test,list_trueEpr,list_falseExpr)=vectorKintOrStrK
         self.method_recurs_evalPerList_LrV(list_test)
         self.method_genB_C_IrV(BRF)
@@ -281,7 +284,7 @@ class LispMach:
         self.pole_vectorKintK_b_c[int_addr1]=len(self.pole_vectorKintK_b_c)
         self.method_recurs_evalPerList_LrV(list_falseExpr)
         self.pole_vectorKintK_b_c[int_adr2]=len(self.pole_vectorKintK_b_c)
-    elif vectorKintOrStrK[0]=='while':
+    elif vectorKintOrStrK[0]=='while':#while
         (_,list_test,list_whileBody)=vectorKintOrStrK
         int_addr1=len(self.pole_vectorKintK_b_c)
         self.method_recurs_evalPerList_LrV(list_test)
@@ -293,7 +296,7 @@ class LispMach:
         self.method_genB_C_IrV(int_addr1)
         self.pole_vectorKintK_b_c[int_addr2]=len(self.pole_vectorKintK_b_c)
         
-    elif vectorKintOrStrK[0] == 'params':
+    elif vectorKintOrStrK[0] == 'params':#формальные параметры
         j=0
         for i in vectorKintOrStrK[1:]:
             self.method_genB_C_IrV(LOAD)
@@ -301,7 +304,7 @@ class LispMach:
             self.method_genB_C_IrV(STORE)
             self.method_genB_C_IrV(ord(i)-ord('a'))
             j+=1
-    elif vectorKintOrStrK[0] == 'args':
+    elif vectorKintOrStrK[0] == 'args':#фактические параметры
         j=0
         for i in vectorKintOrStrK[1:]:
             if  isa(i,float): 
@@ -313,27 +316,42 @@ class LispMach:
                 self.method_genB_C_IrV(int(ord(i)-ord("a")))
             j+=1
         self.pole_int_nargs=j
-    elif vectorKintOrStrK[0]=='pass':
+    elif vectorKintOrStrK[0]=='pass':#ничего не делать
         self.method_genB_C_IrV(NOOP)
             
    
         
- def method_retB_C_VrL(self):   
+ def method_retB_C_VrL(self):  
+    """
+    Возвращает результирующий байт код для ВМ 
+    """ 
     return self.pole_vectorKintK_b_c
  def __str__(self):
+     """
+     Возвращает строковое представление обьекта компилятора
+     """
      return "func_table:"+str(self.pole_dictKstrYintK_funcTable)+"\nvectorKintOrStrK:"+\
       "\nvector<int>_b_c:"+str(self.pole_vectorKintK_b_c)+"\nstart_ip:"+str(self.pole_int_startIp)    
      
         
 def read(s):
-    #"Read a Scheme expression from a string."
+    #"Read  expression from a string."
+    """
+    Читает lisp подобное выражение из строки и лексемазирует его 
+    """ 
     return read_from(tokenize(s))
  
 def tokenize(s):
+    """
+     Ковертирует строку в питон список токенов
+    """
     #"Convert a string into a list of tokens."
     return s.replace('(',' ( ').replace(')',' ) ').split()
  
 def read_from(tokens):
+    """
+    Читает выражение,создает 'атомы' -float или строки
+    """
     #"Read an expression from a sequence of tokens."
     if len(tokens) == 0:
         raise SyntaxError('unexpected EOF while reading')
@@ -350,6 +368,9 @@ def read_from(tokens):
         return atom(token)
  
 def atom(token):
+    """
+    Числа становятся числами float,остальное символами,строками 
+    """
     #"Numbers become numbers; every other token is a symbol."
     try: return float(token)
     except ValueError:
@@ -362,6 +383,8 @@ def atom(token):
   
 parse=read        
 def from_file(coContent):
+  """
+  """ 
   obj_LispMach=LispMach()  
   obj_LispMach.method_recurs_evalPerList_LrV(parse(coContent))
   return obj_LispMach.method_retB_C_VrL()
