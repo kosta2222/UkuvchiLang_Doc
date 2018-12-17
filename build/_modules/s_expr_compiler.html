@@ -138,9 +138,15 @@
 <span class="n">isa</span> <span class="o">=</span> <span class="nb">isinstance</span>
 <span class="n">Symbol</span> <span class="o">=</span> <span class="nb">str</span>
 <div class="viewcode-block" id="load_file"><a class="viewcode-back" href="../s_expr_compiler.html#s_expr_compiler.load_file">[документация]</a><span class="k">def</span> <span class="nf">load_file</span><span class="p">(</span><span class="n">fName</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Считывает файл -исходнй текст проги,возвращает строку-выражение</span>
+<span class="sd">    &quot;&quot;&quot;</span> 
     <span class="n">fContent</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">fName</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">fContent</span></div>
 <div class="viewcode-block" id="op_prior"><a class="viewcode-back" href="../s_expr_compiler.html#s_expr_compiler.op_prior">[документация]</a><span class="k">def</span> <span class="nf">op_prior</span><span class="p">(</span><span class="n">str_char_op</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Приоритет арифметической операции</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">str_char_op</span><span class="o">==</span><span class="s2">&quot;^&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">6</span>
     <span class="k">elif</span> <span class="n">str_char_op</span><span class="o">==</span><span class="s2">&quot;*&quot;</span><span class="p">:</span>
@@ -154,6 +160,9 @@
     <span class="k">elif</span> <span class="n">str_char_op</span><span class="o">==</span><span class="s2">&quot;-&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">2</span> </div>
 <div class="viewcode-block" id="isOp"><a class="viewcode-back" href="../s_expr_compiler.html#s_expr_compiler.isOp">[документация]</a><span class="k">def</span> <span class="nf">isOp</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Это арифметическая операция? </span>
+<span class="sd">    &quot;&quot;&quot;</span> 
     <span class="k">if</span> <span class="n">c</span><span class="o">==</span><span class="s2">&quot;-&quot;</span> <span class="ow">or</span> <span class="n">c</span><span class="o">==</span><span class="s2">&quot;+&quot;</span> <span class="ow">or</span> <span class="n">c</span><span class="o">==</span><span class="s2">&quot;*&quot;</span> <span class="ow">or</span> <span class="n">c</span><span class="o">==</span><span class="s2">&quot;/&quot;</span> <span class="ow">or</span> <span class="n">c</span><span class="o">==</span><span class="s2">&quot;%&quot;</span><span class="ow">or</span> <span class="n">c</span><span class="o">==</span><span class="s2">&quot;^&quot;</span> <span class="p">:</span><span class="k">return</span> <span class="kc">True</span>
     <span class="k">return</span> <span class="kc">False</span></div>
 <div class="viewcode-block" id="opn"><a class="viewcode-back" href="../s_expr_compiler.html#s_expr_compiler.opn">[документация]</a><span class="k">def</span> <span class="nf">opn</span><span class="p">(</span><span class="n">str_code</span><span class="p">):</span> 
@@ -197,7 +206,10 @@
  <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd"> Компилятор</span>
 <span class="sd"> &quot;&quot;&quot;</span>
- <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>   
+ <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  заводим карту для функций- &lt;имя функции:индекс ее байткода&gt;,индекс первой команды,которую нужно исполнять </span>
+<span class="sd">  &quot;&quot;&quot;</span>   
   <span class="bp">self</span><span class="o">.</span><span class="n">pole_dictKstrYintK_funcTable</span><span class="o">=</span><span class="p">{}</span>
   <span class="bp">self</span><span class="o">.</span><span class="n">pole_vectorKintK_b_c</span><span class="o">=</span><span class="p">[]</span>
   <span class="bp">self</span><span class="o">.</span><span class="n">pole_int_startIp</span><span class="o">=</span><span class="mi">0</span>
@@ -208,30 +220,31 @@
 <span class="sd">     &quot;&quot;&quot;</span>
      <span class="bp">self</span><span class="o">.</span><span class="n">pole_vectorKintK_b_c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">int_command</span><span class="p">)</span></div>
 <div class="viewcode-block" id="LispMach.method_recurs_evalPerList_LrV"><a class="viewcode-back" href="../s_expr_compiler.html#s_expr_compiler.LispMach.method_recurs_evalPerList_LrV">[документация]</a> <span class="k">def</span> <span class="nf">method_recurs_evalPerList_LrV</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">vectorKintOrStrK</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    рекурсивный разбор s-выражения vectorKintOrStrK -список с числами и строками </span>
+<span class="sd">    как именами того какой байт-код генерировать</span>
+<span class="sd">    смотря на аргумент self.method_genB_C_IrV можно понять синтаксис языка </span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#print(vectorKintOrStrK)</span>
-    <span class="k">if</span> <span class="n">isa</span><span class="p">(</span><span class="n">vectorKintOrStrK</span><span class="p">,</span> <span class="n">Symbol</span><span class="p">)</span> <span class="p">:</span> 
-        <span class="k">return</span> <span class="n">vectorKintOrStrK</span>
-    <span class="k">elif</span> <span class="ow">not</span> <span class="n">isa</span><span class="p">(</span><span class="n">vectorKintOrStrK</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">isa</span><span class="p">(</span><span class="n">vectorKintOrStrK</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">ICONST</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">vectorKintOrStrK</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">vectorKintOrStrK</span> 
-    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;//&#39;</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">vectorKintOrStrK</span><span class="p">)</span> 
+    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;//&#39;</span><span class="p">:</span><span class="c1">#комментарии</span>
         <span class="k">pass</span>
-    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;set!&#39;</span><span class="p">:</span>           <span class="c1"># (set! var exp)</span>
+    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;set!&#39;</span><span class="p">:</span>  <span class="c1">#переменная         </span>
         <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">exp</span><span class="p">)</span> <span class="o">=</span> <span class="n">vectorKintOrStrK</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_recurs_evalPerList_LrV</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">STORE</span><span class="p">)</span>
         <span class="n">int_ordLocToStore</span><span class="o">=</span><span class="nb">ord</span><span class="p">(</span><span class="n">var</span><span class="p">)</span><span class="o">-</span><span class="nb">ord</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">int_ordLocToStore</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;setResult!&#39;</span><span class="p">:</span>           <span class="c1"># (set! var exp)</span>
+    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;setResult!&#39;</span><span class="p">:</span> <span class="c1">#значение от функции          </span>
         <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span> <span class="o">=</span> <span class="n">vectorKintOrStrK</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">STORE_RESULT</span><span class="p">)</span>
         <span class="n">int_ordLocToStoreRegistr</span><span class="o">=</span><span class="nb">ord</span><span class="p">(</span><span class="n">var</span><span class="p">)</span><span class="o">-</span><span class="nb">ord</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">int_ordLocToStoreRegistr</span><span class="p">)</span>        
-    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;define&#39;</span><span class="p">:</span>         <span class="c1"># (define var exp)</span>
-        <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">exp</span><span class="p">)</span> <span class="o">=</span> <span class="n">vectorKintOrStrK</span>
-        <span class="n">env</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">method_recurs_evalPerList_LrV</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>         
-    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;defun&#39;</span><span class="p">:</span>         <span class="c1"># (lambda (var*) exp)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">int_ordLocToStoreRegistr</span><span class="p">)</span>                
+    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;defun&#39;</span><span class="p">:</span>   <span class="c1">#определить функцию-заносим в карту имя функции и ее позицию в байт коде</span>
+                                           <span class="c1">#запоминаем индекс байт-кода функции main      </span>
         <span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">str_nameFunc</span><span class="p">,</span> <span class="n">list_arg</span><span class="p">,</span><span class="n">list_expr</span><span class="p">)</span> <span class="o">=</span> <span class="n">vectorKintOrStrK</span>
         <span class="k">if</span> <span class="n">str_nameFunc</span><span class="o">==</span><span class="s1">&#39;main&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pole_int_startIp</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pole_vectorKintK_b_c</span><span class="p">)</span>
@@ -241,20 +254,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">method_recurs_evalPerList_LrV</span><span class="p">(</span><span class="n">list_expr</span><span class="p">)</span>
         
            
-    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;$&#39;</span><span class="p">:</span>          <span class="c1"># (begin exp*)</span>
+    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;$&#39;</span><span class="p">:</span> <span class="c1">#выполняем s-выражений слева направо       </span>
         <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
             <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_recurs_evalPerList_LrV</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">val</span>
-    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;return&#39;</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">RET</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;return&#39;</span><span class="p">:</span> <span class="c1">#выход из функции</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">RET</span><span class="p">)</span>       
         
-    <span class="c1">#elif vectorKintOrStrK[0]==&#39;setZnach!&#39;:</span>
-    <span class="c1">#    pass</span>
-    <span class="c1">#    (_,bukva)=vectorKintOrStrK</span>
-    <span class="c1">#    self.method_genB_C_IrV(STORE_RET_REGISTR)</span>
-    <span class="c1">#    self.method_genB_C_IrV(ord(bukva)-ord(&quot;a&quot;))</span>
-        
-    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;arif&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;arif&#39;</span><span class="p">:</span> <span class="c1">#выполняем арифметическое выражение</span>
         <span class="n">listKintOrStr_resOpnZapis</span><span class="o">=</span><span class="n">opn</span><span class="p">(</span><span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">listKintOrStr_resOpnZapis</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">isOp</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
@@ -278,14 +285,13 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">LOAD_RESULT</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">isa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="nb">float</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">ICONST</span><span class="p">)</span>
-                <span class="c1">#self.method_genB_C_IrV(i)</span>
                 <span class="k">for</span> <span class="n">i1</span> <span class="ow">in</span> <span class="n">floatToBytes_SfloatRbytes</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">i1</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;print&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;print&#39;</span><span class="p">:</span> <span class="c1">#печатаем локальную переменную</span>
         <span class="k">for</span> <span class="n">str_temp_BukvaKakChislo</span> <span class="ow">in</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>  
           <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">PRINT</span><span class="p">)</span>
           <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">str_temp_BukvaKakChislo</span><span class="p">)</span><span class="o">-</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;call&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;call&#39;</span><span class="p">:</span> <span class="c1">#вызываем функцию</span>
         <span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">str_nameFunctionToCallFromMainFunction</span><span class="p">,</span><span class="n">list_args</span><span class="p">)</span><span class="o">=</span><span class="n">vectorKintOrStrK</span>
         <span class="n">int_nameFunctionToCallFromMainFunction</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pole_dictKstrYintK_funcTable</span><span class="p">[</span><span class="n">str_nameFunctionToCallFromMainFunction</span><span class="p">]</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">int_nameFunctionToCallFromMainFunction</span><span class="p">)</span>
@@ -293,17 +299,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">CALL</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">int_nameFunctionToCallFromMainFunction</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pole_int_nargs</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;&lt;&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;&lt;&#39;</span><span class="p">:</span> <span class="c1">#сравнение на меньше</span>
         <span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">list_arif1</span><span class="p">,</span><span class="n">list_arif2</span><span class="p">)</span><span class="o">=</span><span class="n">vectorKintOrStrK</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_recurs_evalPerList_LrV</span><span class="p">(</span><span class="n">list_arif1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_recurs_evalPerList_LrV</span><span class="p">(</span><span class="n">list_arif2</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">ILT</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;=&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;=&#39;</span><span class="p">:</span><span class="c1">#сравнение на равенство</span>
         <span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">list_arif1</span><span class="p">,</span><span class="n">list_arif2</span><span class="p">)</span><span class="o">=</span><span class="n">vectorKintOrStrK</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_recurs_evalPerList_LrV</span><span class="p">(</span><span class="n">list_arif1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_recurs_evalPerList_LrV</span><span class="p">(</span><span class="n">list_arif2</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">IEQ</span><span class="p">)</span>        
-    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;if&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;if&#39;</span><span class="p">:</span><span class="c1">#if</span>
         <span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">list_test</span><span class="p">,</span><span class="n">list_trueEpr</span><span class="p">,</span><span class="n">list_falseExpr</span><span class="p">)</span><span class="o">=</span><span class="n">vectorKintOrStrK</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_recurs_evalPerList_LrV</span><span class="p">(</span><span class="n">list_test</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">BRF</span><span class="p">)</span>
@@ -316,7 +322,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pole_vectorKintK_b_c</span><span class="p">[</span><span class="n">int_addr1</span><span class="p">]</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pole_vectorKintK_b_c</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_recurs_evalPerList_LrV</span><span class="p">(</span><span class="n">list_falseExpr</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pole_vectorKintK_b_c</span><span class="p">[</span><span class="n">int_adr2</span><span class="p">]</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pole_vectorKintK_b_c</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;while&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;while&#39;</span><span class="p">:</span><span class="c1">#while</span>
         <span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">list_test</span><span class="p">,</span><span class="n">list_whileBody</span><span class="p">)</span><span class="o">=</span><span class="n">vectorKintOrStrK</span>
         <span class="n">int_addr1</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pole_vectorKintK_b_c</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_recurs_evalPerList_LrV</span><span class="p">(</span><span class="n">list_test</span><span class="p">)</span>
@@ -328,7 +334,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">int_addr1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pole_vectorKintK_b_c</span><span class="p">[</span><span class="n">int_addr2</span><span class="p">]</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pole_vectorKintK_b_c</span><span class="p">)</span>
         
-    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;params&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;params&#39;</span><span class="p">:</span><span class="c1">#формальные параметры</span>
         <span class="n">j</span><span class="o">=</span><span class="mi">0</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">LOAD</span><span class="p">)</span>
@@ -336,7 +342,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">STORE</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">-</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">))</span>
             <span class="n">j</span><span class="o">+=</span><span class="mi">1</span>
-    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;args&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;args&#39;</span><span class="p">:</span><span class="c1">#фактические параметры</span>
         <span class="n">j</span><span class="o">=</span><span class="mi">0</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
             <span class="k">if</span>  <span class="n">isa</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="nb">float</span><span class="p">):</span> 
@@ -348,27 +354,42 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">-</span><span class="nb">ord</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)))</span>
             <span class="n">j</span><span class="o">+=</span><span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pole_int_nargs</span><span class="o">=</span><span class="n">j</span>
-    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;pass&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">vectorKintOrStrK</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;pass&#39;</span><span class="p">:</span><span class="c1">#ничего не делать</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_genB_C_IrV</span><span class="p">(</span><span class="n">NOOP</span><span class="p">)</span></div>
             
    
         
-<div class="viewcode-block" id="LispMach.method_retB_C_VrL"><a class="viewcode-back" href="../s_expr_compiler.html#s_expr_compiler.LispMach.method_retB_C_VrL">[документация]</a> <span class="k">def</span> <span class="nf">method_retB_C_VrL</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>   
+<div class="viewcode-block" id="LispMach.method_retB_C_VrL"><a class="viewcode-back" href="../s_expr_compiler.html#s_expr_compiler.LispMach.method_retB_C_VrL">[документация]</a> <span class="k">def</span> <span class="nf">method_retB_C_VrL</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Возвращает результирующий байт код для ВМ </span>
+<span class="sd">    &quot;&quot;&quot;</span> 
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pole_vectorKintK_b_c</span></div>
  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">     Возвращает строковое представление обьекта компилятора</span>
+<span class="sd">     &quot;&quot;&quot;</span>
      <span class="k">return</span> <span class="s2">&quot;func_table:&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pole_dictKstrYintK_funcTable</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">vectorKintOrStrK:&quot;</span><span class="o">+</span>\
       <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">vector&lt;int&gt;_b_c:&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pole_vectorKintK_b_c</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">start_ip:&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pole_int_startIp</span><span class="p">)</span>    </div>
      
         
 <div class="viewcode-block" id="read"><a class="viewcode-back" href="../s_expr_compiler.html#s_expr_compiler.read">[документация]</a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="c1">#&quot;Read a Scheme expression from a string.&quot;</span>
+    <span class="c1">#&quot;Read  expression from a string.&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Читает lisp подобное выражение из строки и лексемазирует его </span>
+<span class="sd">    &quot;&quot;&quot;</span> 
     <span class="k">return</span> <span class="n">read_from</span><span class="p">(</span><span class="n">tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">))</span></div>
  
 <div class="viewcode-block" id="tokenize"><a class="viewcode-back" href="../s_expr_compiler.html#s_expr_compiler.tokenize">[документация]</a><span class="k">def</span> <span class="nf">tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">     Ковертирует строку в питон список токенов</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#&quot;Convert a string into a list of tokens.&quot;</span>
     <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">,</span><span class="s1">&#39; ( &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;)&#39;</span><span class="p">,</span><span class="s1">&#39; ) &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span></div>
  
 <div class="viewcode-block" id="read_from"><a class="viewcode-back" href="../s_expr_compiler.html#s_expr_compiler.read_from">[документация]</a><span class="k">def</span> <span class="nf">read_from</span><span class="p">(</span><span class="n">tokens</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Читает выражение,создает &#39;атомы&#39; -float или строки</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#&quot;Read an expression from a sequence of tokens.&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">SyntaxError</span><span class="p">(</span><span class="s1">&#39;unexpected EOF while reading&#39;</span><span class="p">)</span>
@@ -385,6 +406,9 @@
         <span class="k">return</span> <span class="n">atom</span><span class="p">(</span><span class="n">token</span><span class="p">)</span></div>
  
 <div class="viewcode-block" id="atom"><a class="viewcode-back" href="../s_expr_compiler.html#s_expr_compiler.atom">[документация]</a><span class="k">def</span> <span class="nf">atom</span><span class="p">(</span><span class="n">token</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Числа становятся числами float,остальное символами,строками </span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#&quot;Numbers become numbers; every other token is a symbol.&quot;</span>
     <span class="k">try</span><span class="p">:</span> <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
@@ -397,6 +421,8 @@
   
 <span class="n">parse</span><span class="o">=</span><span class="n">read</span>        
 <div class="viewcode-block" id="from_file"><a class="viewcode-back" href="../s_expr_compiler.html#s_expr_compiler.from_file">[документация]</a><span class="k">def</span> <span class="nf">from_file</span><span class="p">(</span><span class="n">coContent</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  &quot;&quot;&quot;</span> 
   <span class="n">obj_LispMach</span><span class="o">=</span><span class="n">LispMach</span><span class="p">()</span>  
   <span class="n">obj_LispMach</span><span class="o">.</span><span class="n">method_recurs_evalPerList_LrV</span><span class="p">(</span><span class="n">parse</span><span class="p">(</span><span class="n">coContent</span><span class="p">))</span>
   <span class="k">return</span> <span class="n">obj_LispMach</span><span class="o">.</span><span class="n">method_retB_C_VrL</span><span class="p">()</span></div>

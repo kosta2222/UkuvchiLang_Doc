@@ -104,11 +104,13 @@ isa = isinstance
 Symbol = str
 def load_file(fName):
     """
+    Считывает файл -исходнй текст проги,возвращает строку-выражение
     """ 
     fContent=open(fName).read()
     return fContent
 def op_prior(str_char_op):
     """
+    Приоритет арифметической операции
     """
     if str_char_op=="^":
         return 6
@@ -124,6 +126,7 @@ def op_prior(str_char_op):
         return 2 
 def isOp(c):
     """
+    Это арифметическая операция? 
     """ 
     if c=="-" or c=="+" or c=="*" or c=="/" or c=="%"or c=="^" :return True
     return False
@@ -170,6 +173,7 @@ class LispMach:
  """
  def __init__(self):
   """
+  заводим карту для функций- <имя функции:индекс ее байткода>,индекс первой команды,которую нужно исполнять 
   """   
   self.pole_dictKstrYintK_funcTable={}
   self.pole_vectorKintK_b_c=[]
@@ -190,8 +194,7 @@ class LispMach:
     
     if not isa(vectorKintOrStrK, list):
         self.method_genB_C_IrV(ICONST)
-        self.method_genB_C_IrV(vectorKintOrStrK)
-        return vectorKintOrStrK 
+        self.method_genB_C_IrV(vectorKintOrStrK) 
     elif vectorKintOrStrK[0] == '//':#комментарии
         pass
     elif vectorKintOrStrK[0] == 'set!':  #переменная         
